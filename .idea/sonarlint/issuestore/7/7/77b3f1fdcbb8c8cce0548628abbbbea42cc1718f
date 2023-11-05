@@ -1,0 +1,10 @@
+
+opython:S1192*"PDefine a constant instead of duplicating this literal 'horizontal move' 4 times.(ñªİê8Ïÿú¸1
+mpython:S1192)"NDefine a constant instead of duplicating this literal 'vertical move' 5 times.(óƒ×­8Ïÿú¸1
+Spython:S1066t"/Merge this if statement with the enclosing one.(ğ©–òûÿÿÿÿ8Ïÿú¸1
+fpython:S2208"GImport only needed names or import the module and then use its members.(ÍµŠ‰8Ğÿú¸1
+Ipython:S1481"%Remove the unused local variable "y".(–éÎşúÿÿÿÿ8Ğÿú¸1
+Ipython:S1481"%Remove the unused local variable "x".(–éÎşúÿÿÿÿ8Ğÿú¸1
+ypython:S3776"TRefactor this function to reduce its Cognitive Complexity from 24 to the 15 allowed.(ü•£ûÿÿÿÿ8Ğÿú¸1
+Jpython:S1481—"%Remove the unused local variable "y".(–éÎşúÿÿÿÿ8Ğÿú¸1
+Jpython:S1481—"%Remove the unused local variable "x".(–éÎşúÿÿÿÿ8Ğÿú¸1
