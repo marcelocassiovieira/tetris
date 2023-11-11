@@ -1,47 +1,52 @@
-import pygame 
+import pygame
 
-# Game size 
-COLUMNS = 10
-ROWS = 20
-CELL_SIZE = 40
-GAME_WIDTH, GAME_HEIGHT = COLUMNS * CELL_SIZE, ROWS * CELL_SIZE
+# Tamaños
+COLUMNAS = 10  # tamaño de las columnas
+FILAS = 20  # tamaño de las filas
+TAMANO_CELDA = 40  # tamaño de las celdas
+ANCHO_JUEGO, ALTURA_JUEGO = COLUMNAS * TAMANO_CELDA, FILAS * TAMANO_CELDA  # tamaño del tablero del juego
 
-# side bar size 
-SIDEBAR_WIDTH = 200
-PREVIEW_HEIGHT_FRACTION = 0.7
-SCORE_HEIGHT_FRACTION = 1 - PREVIEW_HEIGHT_FRACTION
+# Barra lateral
+ANCHO_BARRA_LATERAL = 250  # ancho de la barra lateral
 
-# window
+# 75% del largo para agregar la puntuacion
+FRACCION_ALTURA_PREVISUALIZACION = 0.75
+FRACCION_ALTURA_PUNTUACION = 1 - FRACCION_ALTURA_PREVISUALIZACION
+
+# ventana
 PADDING = 20
-WINDOW_WIDTH = GAME_WIDTH + SIDEBAR_WIDTH + PADDING * 3
-WINDOW_HEIGHT = GAME_HEIGHT + PADDING * 2
+ANCHURA_VENTANA = ANCHO_JUEGO + ANCHO_BARRA_LATERAL + PADDING * 3
+ALTURA_VENTANA = ALTURA_JUEGO + PADDING * 2
 
-# game behaviour 
-UPDATE_START_SPEED = 200
-MOVE_WAIT_TIME = 200
-ROTATE_WAIT_TIME = 200
-BLOCK_OFFSET = pygame.Vector2(COLUMNS // 2, -1)
-
-# Colors 
-YELLOW = '#f1e60d'
-RED = '#e51b20'
-BLUE = '#204b9b'
-GREEN = '#65b32e'
-PURPLE = '#7b217f'
-CYAN = '#6cc6d9'
-ORANGE = '#f07e13'
-GRAY = '#1C1C1C'
+NEGRO = '#040100'
 LINE_COLOR = '#FFFFFF'
+T_COLOR = "#EA0DEA"
+O_COLOR = "#FCED06"
+J_COLOR = "#0636FC"
+L_COLOR = "#FCB906"
+I_COLOR = "#06DAFC"
+S_COLOR = "#FC2B06"
+Z_COLOR = "#3BE138"
 
-# shapes
+# comportamiento del juego
+ACTUALIZAR_VELOCIDAD_INICIO = 200
+TIEMPO_ESPERA_MOVIMIENTO = 200
+TIEMPO_ESPERA_ROTACION = 200
+
+# para que las imagenes aparezcan en el medio del topo de la
+# pantalla del juego
+BLOQUE_OFFSET = pygame.Vector2(COLUMNAS // 2, -1)
+
+
+# formas cuando entra a la ventana del juego
 TETROMINOS = {
-	'T': {'shape': [(0,0), (-1,0), (1,0), (0,-1)], 'color': PURPLE},
-	'O': {'shape': [(0,0), (0,-1), (1,0), (1,-1)], 'color': YELLOW},
-	'J': {'shape': [(0,0), (0,-1), (0,1), (-1,1)], 'color': BLUE},
-	'L': {'shape': [(0,0), (0,-1), (0,1), (1,1)], 'color': ORANGE},
-	'I': {'shape': [(0,0), (0,-1), (0,-2), (0,1)], 'color': CYAN},
-	'S': {'shape': [(0,0), (-1,0), (0,-1), (1,-1)], 'color': GREEN},
-	'Z': {'shape': [(0,0), (1,0), (0,-1), (-1,-1)], 'color': RED}
+    'T': {'forma': [(0, 0), (-1, 0), (1, 0), (0, -1)], 'color': T_COLOR},
+    'O': {'forma': [(0, 0), (0, -1), (1, 0), (1, -1)], 'color': O_COLOR},
+    'J': {'forma': [(0, 0), (0, -1), (0, 1), (-1, 1)], 'color': J_COLOR},
+    'L': {'forma': [(0, 0), (0, -1), (0, 1), (1, 1)], 'color': L_COLOR},
+    'I': {'forma': [(0, 0), (0, -1), (0, -2), (0, 1)], 'color': I_COLOR},
+    'S': {'forma': [(0, 0), (-1, 0), (0, -1), (1, -1)], 'color': S_COLOR},
+    'Z': {'forma': [(0, 0), (1, 0), (0, -1), (-1, -1)], 'color': Z_COLOR}
 }
 
-SCORE_DATA = {1: 40, 2: 100, 3: 300, 4: 1200}
+DATOS_PUNTUACION = {1: 50, 2: 150, 3: 400, 4: 1500}

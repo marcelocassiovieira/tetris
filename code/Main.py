@@ -1,5 +1,6 @@
-from Engine import Engine
+from Motor import Motor
 
-if __name__ == '__main__':
-    main = Engine()
-    main.run()
+
+#  Ejecutamos el juego
+motor = Motor()
+motor.ejecutar()

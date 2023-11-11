@@ -2,14 +2,14 @@ from Constantes import *
 from os.path import join
 
 
-class Score:
+class Puntaje:
     def __init__(self):
-        self.surface = pygame.Surface((SIDEBAR_WIDTH, GAME_HEIGHT * SCORE_HEIGHT_FRACTION - PADDING))
-        self.rect = self.surface.get_rect(bottomright=(WINDOW_WIDTH - PADDING, WINDOW_HEIGHT - PADDING))
+        self.surface = pygame.Surface((ANCHO_BARRA_LATERAL, ALTURA_JUEGO * FRACCION_ALTURA_PUNTUACION - PADDING))
+        self.rect = self.surface.get_rect(bottomright=(ANCHURA_VENTANA - PADDING, ALTURA_VENTANA - PADDING))
         self.display_surface = pygame.display.get_surface()
 
         # font
-        self.font = pygame.font.Font(join('..', 'graphics', 'Russo_One.ttf'), 30)
+        self.font = pygame.font.Font(join('..', 'graficos', 'Russo_One.ttf'), 30)
 
         # increment
         self.increment_height = self.surface.get_height() / 3
@@ -24,9 +24,9 @@ class Score:
         text_rext = text_surface.get_rect(center=pos)
         self.surface.blit(text_surface, text_rext)
 
-    def run(self):
-        self.surface.fill(GRAY)
-        for i, text in enumerate([('Score', self.score), ('Level', self.level), ('Lines', self.lines)]):
+    def ejecutar(self):
+        self.surface.fill(NEGRO)
+        for i, text in enumerate([('Puntaje', self.score), ('Nivel', self.level), ('Lineas', self.lines)]):
             x = self.surface.get_width() / 2
             y = self.increment_height / 2 + i * self.increment_height
             self.display_text((x, y), text)
