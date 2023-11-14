@@ -1,31 +1,31 @@
 from pygame.time import get_ticks
 
 
-# Define los tiempos de transiciond e los bloques
+# Define los tiempos de transicion de los bloques
 class Temporizador:
     def __init__(self, duracion, repetido=False, func=None):
         self.repetido = repetido
         self.func = func
         self.duracion = duracion
 
-        self.start_time = 0
-        self.active = False
+        self.tiempo_inicio = 0
+        self.activo = False
 
     def activar(self):
-        self.active = True
-        self.start_time = get_ticks()
+        self.activo = True
+        self.tiempo_inicio = get_ticks()
 
     def desactivar(self):
-        self.active = False
-        self.start_time = 0
+        self.activo = False
+        self.tiempo_inicio = 0
 
 # Llama esta funcion cada frame del juego
     def actualizar(self):
-        current_time = get_ticks()
-        if current_time - self.start_time >= self.duracion and self.active:
+        tiempo_actual = get_ticks()
+        if tiempo_actual - self.tiempo_inicio >= self.duracion and self.activo:
 
             # llamada a funcion
-            if self.func and self.start_time != 0:
+            if self.func and self.tiempo_inicio != 0:
                 self.func()
 
             # resetear temporizador

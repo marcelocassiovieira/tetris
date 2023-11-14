@@ -4,32 +4,32 @@ from os.path import join
 
 class Puntaje:
     def __init__(self):
-        self.surface = pygame.Surface((ANCHO_BARRA_LATERAL, ALTURA_JUEGO * FRACCION_ALTURA_PUNTUACION - PADDING))
-        self.rect = self.surface.get_rect(bottomright=(ANCHURA_VENTANA - PADDING, ALTURA_VENTANA - PADDING))
-        self.display_surface = pygame.display.get_surface()
+        self.superficie = pygame.Surface((ANCHO_BARRA_LATERAL, ALTURA_JUEGO * FRACCION_ALTURA_PUNTUACION - PADDING))
+        self.rect = self.superficie.get_rect(bottomright=(ANCHURA_VENTANA - PADDING, ALTURA_VENTANA - PADDING))
+        self.mostrar_superficie = pygame.display.get_surface()
 
-        # font
-        self.font = pygame.font.Font(join('..', 'graficos', 'Russo_One.ttf'), 30)
+        # fuente
+        self.fuente = pygame.font.Font(join('..', 'graficos', 'Russo_One.ttf'), 30)
 
-        # increment
-        self.increment_height = self.surface.get_height() / 3
+        # incrementar altura
+        self.incrementar_altura = self.superficie.get_height() / 3
 
         # data
-        self.score = 0
-        self.level = 1
-        self.lines = 0
+        self.puntuacion = 0
+        self.nivel = 1
+        self.lineas = 0
 
-    def display_text(self, pos, text):
-        text_surface = self.font.render(f'{text[0]}: {text[1]}', True, 'white')
-        text_rext = text_surface.get_rect(center=pos)
-        self.surface.blit(text_surface, text_rext)
+    def mostrar_texto(self, pos, text):
+        texto_superficie = self.fuente.render(f'{text[0]}: {text[1]}', True, 'white')
+        texto_rect = texto_superficie.get_rect(center=pos)
+        self.superficie.blit(texto_superficie, texto_rect)
 
     def ejecutar(self):
-        self.surface.fill(NEGRO)
-        for i, text in enumerate([('Puntaje', self.score), ('Nivel', self.level), ('Lineas', self.lines)]):
-            x = self.surface.get_width() / 2
-            y = self.increment_height / 2 + i * self.increment_height
-            self.display_text((x, y), text)
+        self.superficie.fill(NEGRO)
+        for i, text in enumerate([('Puntaje', self.puntuacion), ('Nivel', self.nivel), ('Lineas', self.lineas)]):
+            x = self.superficie.get_width() / 2
+            y = self.incrementar_altura / 2 + i * self.incrementar_altura
+            self.mostrar_texto((x, y), text)
 
-        self.display_surface.blit(self.surface, self.rect)
-        pygame.draw.rect(self.display_surface, LINE_COLOR, self.rect, 2, 2)
+        self.mostrar_superficie.blit(self.superficie, self.rect)
+        pygame.draw.rect(self.mostrar_superficie, COLOR_LINEA, self.rect, 2, 2)

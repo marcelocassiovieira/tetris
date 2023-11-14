@@ -34,15 +34,15 @@ class Juego:
             self.data)
 
         # timer
-        self.down_speed = ACTUALIZAR_VELOCIDAD_INICIO
-        self.down_speed_faster = self.down_speed * 0.3
-        self.down_pressed = False
-        self.timers = {
-            'vertical move': Temporizador(self.down_speed, True, self.move_down),
-            'horizontal move': Temporizador(TIEMPO_ESPERA_MOVIMIENTO),
-            'rotate': Temporizador(TIEMPO_ESPERA_ROTACION)
+        self.velocidad_bajada = ACTUALIZAR_VELOCIDAD_INICIO
+        self.bajar_aumentar_velocidad = self.velocidad_bajada * 0.3
+        self.presionar_abajo = False
+        self.temporizadores = {
+            'movimiento vertical': Temporizador(self.velocidad_bajada, True, self.movimiento_abajo),
+            'movimiento horizontal': Temporizador(TIEMPO_ESPERA_MOVIMIENTO),
+            'rotacion': Temporizador(TIEMPO_ESPERA_ROTACION)
         }
-        self.timers['vertical move'].activar()
+        self.temporizadores['movimiento vertical'].activar()
 
         # score
         self.current_level = 1
@@ -59,102 +59,101 @@ class Juego:
 
         if self.current_lines / 10 > self.current_level:
             self.current_level += 1
-            self.down_speed *= 0.75
-            self.down_speed_faster = self.down_speed * 0.3
-            self.timers['vertical move'].duracion = self.down_speed
+            self.velocidad_bajada *= 0.75
+            self.bajar_aumentar_velocidad = self.velocidad_bajada * 0.3
+            self.temporizadores['vertical move'].duracion = self.velocidad_bajada
 
         self.actualizar_puntaje(self.current_lines, self.current_score, self.current_level)
 
     def check_game_over(self):
-        for block in self.tetromino.blocks:
+        for block in self.tetromino.bloques:
             if block.posicion.y < 0:
                 exit()
 
     def crear_nuevo_tetromino(self):
         self.landing_sound.play()
         self.check_game_over()
-        self.check_finished_rows()
+        self.comprobar_filas_terminadas()
         self.tetromino = Tetromino(
             self.obtener_proxima_forma(),
             self.sprites,
             self.crear_nuevo_tetromino,
             self.data)
 
-    def timer_update(self):
-        for timer in self.timers.values():
+    def atualizar_temporizador(self):
+        for timer in self.temporizadores.values():
             timer.actualizar()
 
-    def move_down(self):
-        self.tetromino.move_down()
+    def movimiento_abajo(self):
+        self.tetromino.mover_hacia_abajo()
 
     # Entrada de teclado del usuario
     def entrada(self):
         keys = pygame.key.get_pressed()
 
-        # checking horizontal movement
-        if not self.timers['horizontal move'].active:
+        # check movimientos horizontales
+        if not self.temporizadores['movimiento horizontal'].activo:
             if keys[pygame.K_LEFT]:
-                self.tetromino.move_horizontal(-1)
-                self.timers['horizontal move'].activar()
+                self.tetromino.mover_horizontal(-1)
+                self.temporizadores['movimiento horizontal'].activar()
             if keys[pygame.K_RIGHT]:
-                self.tetromino.move_horizontal(1)
-                self.timers['horizontal move'].activar()
+                self.tetromino.mover_horizontal(1)
+                self.temporizadores['movimiento horizontal'].activar()
 
-        # check for rotation
-        if not self.timers['rotate'].active:
+        # check rotacion
+        if not self.temporizadores['rotacion'].activo:
             if keys[pygame.K_UP]:
-                self.tetromino.rotate()
-                self.timers['rotate'].activar()
+                self.tetromino.rotar()
+                self.temporizadores['rotacion'].activar()
 
-        # down speedup
-        if not self.down_pressed and keys[pygame.K_DOWN]:
-            self.down_pressed = True
-            self.timers['vertical move'].duracion = self.down_speed_faster
+        # aumento de velocidad de bajada
+        if not self.presionar_abajo and keys[pygame.K_DOWN]:
+            self.presionar_abajo = True
+            self.temporizadores['movimiento vertical'].duracion = self.bajar_aumentar_velocidad
 
-        if self.down_pressed and not keys[pygame.K_DOWN]:
-            self.down_pressed = False
-            self.timers['vertical move'].duracion = self.down_speed
+        if self.presionar_abajo and not keys[pygame.K_DOWN]:
+            self.presionar_abajo = False
+            self.temporizadores['movimiento vertical'].duracion = self.velocidad_bajada
 
-    def check_finished_rows(self):
+    def comprobar_filas_terminadas(self):
 
-        # get the full row indexes
+        # obtener los índices de fila completos
         borrar_filas = []
         for i, row in enumerate(self.data):
             if all(row):
                 borrar_filas.append(i)
 
         if borrar_filas:
-            for delete_row in borrar_filas:
+            for borrar_fila in borrar_filas:
 
-                # delete full rows
-                for block in self.data[delete_row]:
+                # borrar filas completas
+                for block in self.data[borrar_fila]:
                     block.kill()
 
-                # move down blocks
+                # mover bloques hacia abajo
                 for row in self.data:
                     for block in row:
-                        if block and block.posicion.y < delete_row:
+                        if block and block.posicion.y < borrar_fila:
                             block.posicion.y += 1
 
-            # rebuild the field data
+            # reconstruir los datos de campo
             self.data = [[0 for x in range(COLUMNAS)] for y in range(FILAS)]
             for block in self.sprites:
                 self.data[int(block.posicion.y)][int(block.posicion.x)] = block
 
-            # update score
+            # actualizar puntuación
             self.calculate_score(len(borrar_filas))
 
     def ejecutar(self):
 
-        # update
+        # actualización
         self.entrada()
-        self.timer_update()
+        self.atualizar_temporizador()
         self.sprites.update()
 
-        # drawing
+        # dibujo
         self.superficie.fill(NEGRO)
         self.sprites.draw(self.superficie)
 
-        # self.draw_grid()
         self.mostrar_superficie.blit(self.superficie, (PADDING, PADDING))
-        pygame.draw.rect(self.mostrar_superficie, LINE_COLOR, self.rect, 2, 2)
+        pygame.draw.rect(self.mostrar_superficie, COLOR_LINEA, self.rect, 2, 2)

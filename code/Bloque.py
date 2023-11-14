@@ -2,9 +2,9 @@ from Constantes import *
 
 
 class Bloque(pygame.sprite.Sprite):
-    def __init__(self, group, pos, color):
+    def __init__(self, grupo, pos, color):
         # general
-        super().__init__(group)
+        super().__init__(grupo)
         self.image = pygame.Surface((TAMANO_CELDA, TAMANO_CELDA))
         self.image.fill(color)
         # position

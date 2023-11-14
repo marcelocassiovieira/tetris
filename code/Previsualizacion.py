@@ -17,16 +17,16 @@ class Previsualizacion:
         # image position data
         self.incrementar_altura = self.superficie.get_height() / 3
 
-    def mostrar_piezas(self, shapes):
-        for i, shape in enumerate(shapes):
-            forma_superficie = self.forma_superficie[shape]
+    def mostrar_piezas(self, piezas):
+        for i, pieza in enumerate(piezas):
+            forma_superficie = self.forma_superficie[pieza]
             x = self.superficie.get_width() / 2
             y = self.incrementar_altura / 2 + i * self.incrementar_altura
             recta = forma_superficie.get_rect(center=(x, y))
             self.superficie.blit(forma_superficie, recta)
 
-    def ejecutar(self, next_shapes):
+    def ejecutar(self, proxima_pieza):
         self.superficie.fill(NEGRO)
-        self.mostrar_piezas(next_shapes)
+        self.mostrar_piezas(proxima_pieza)
         self.mostrar_superficie.blit(self.superficie, self.rect)
-        pygame.draw.rect(self.mostrar_superficie, LINE_COLOR, self.rect, 2, 2)
+        pygame.draw.rect(self.mostrar_superficie, COLOR_LINEA, self.rect, 2, 2)

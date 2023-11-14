@@ -32,9 +32,9 @@ class Motor:
         self.musica.play(-1)
 
     def actulizar_puntos(self, lines, score, level):
-        self.puntaje.lines = lines
-        self.puntaje.score = score
-        self.puntaje.level = level
+        self.puntaje.lineas = lines
+        self.puntaje.puntuacion = score
+        self.puntaje.nivel = level
 
     def obtener_proxima_figura(self):
         proxima_forma = self.siguientes_formas.pop(0)
